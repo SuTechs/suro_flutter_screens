@@ -6,54 +6,66 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(30.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Hello Again!",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: const Color(0xffEBE8F0),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 50),
+              const Text(
+                "Hello Again!",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Welcome back, you've been missed!",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            SizedBox(height: 30),
-            CustomTextField(hint: "Enter username"),
-            SizedBox(height: 10),
-            CustomTextField(hint: "Password", obscureText: true),
-            SizedBox(height: 10),
-            Text(
-              "Recovery Password",
-              style: TextStyle(
-                color: Colors.blue,
-                decoration: TextDecoration.underline,
+              const SizedBox(height: 10),
+              const Text(
+                "Welcome back you've been missed!",
+                style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
-            ),
-            SizedBox(height: 20),
-            AuthButton(text: "Sign In", isPrimary: true),
-            SizedBox(height: 20),
-            SocialLogins(),
-            SizedBox(height: 20),
-            Text.rich(
-              TextSpan(
-                text: "Not a member? ",
-                style: TextStyle(color: Colors.grey),
-                children: [
-                  TextSpan(
-                    text: "Register now",
-                    style: TextStyle(color: Colors.blue),
+              const SizedBox(height: 32),
+              const CustomTextField(hint: "Enter username"),
+              const SizedBox(height: 15),
+              const CustomTextField(hint: "Password", obscureText: true),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "Recovery Password",
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 14,
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 32),
+              const AuthButton(text: "Sign In"),
+              const SizedBox(height: 64),
+              const Center(child: Text("Or continue with")),
+              const SizedBox(height: 32),
+              const SocialLogins(),
+              const Spacer(),
+              Center(
+                child: Text.rich(
+                  TextSpan(
+                    text: "Not a member? ",
+                    style: TextStyle(color: Colors.grey[600]),
+                    children: const [
+                      TextSpan(
+                        text: "Register now",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
@@ -64,9 +76,11 @@ class CustomTextField extends StatelessWidget {
   final String hint;
   final bool obscureText;
 
-  const CustomTextField(
-      {Key? key, required this.hint, this.obscureText = false})
-      : super(key: key);
+  const CustomTextField({
+    super.key,
+    required this.hint,
+    this.obscureText = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +88,18 @@ class CustomTextField extends StatelessWidget {
       obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hint,
+        hintStyle: TextStyle(color: Colors.grey[400]),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide.none,
         ),
         filled: true,
-        fillColor: Colors.grey[200],
+        fillColor: Colors.white,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        suffixIcon: obscureText
+            ? Icon(Icons.visibility_off, color: Colors.grey[400])
+            : null,
       ),
     );
   }
@@ -86,26 +107,24 @@ class CustomTextField extends StatelessWidget {
 
 class AuthButton extends StatelessWidget {
   final String text;
-  final bool isPrimary;
 
-  const AuthButton({Key? key, required this.text, this.isPrimary = false})
-      : super(key: key);
+  const AuthButton({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      height: 50,
+    return SizedBox(
+      width: double.infinity,
+      height: 55,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: isPrimary ? Colors.red : Colors.white,
-          foregroundColor: isPrimary ? Colors.white : Colors.black,
+          backgroundColor: const Color(0xffEC746D),
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(15),
           ),
         ),
         onPressed: () {},
-        child: Text(text),
+        child: Text(text, style: const TextStyle(fontSize: 16)),
       ),
     );
   }
@@ -119,11 +138,13 @@ class SocialLogins extends StatelessWidget {
     return const Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SocialLoginButton(icon: Icons.apple, color: Colors.black),
-        SizedBox(width: 10),
-        SocialLoginButton(icon: FontAwesomeIcons.google, color: Colors.black),
-        SizedBox(width: 10),
-        SocialLoginButton(icon: Icons.facebook, color: Colors.blue),
+        // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+        // Add FontAwesomeIcons to pubspec.yaml
+        SocialLoginButton(icon: FontAwesomeIcons.google, color: Colors.red),
+        SizedBox(width: 20),
+        SocialLoginButton(icon: FontAwesomeIcons.apple, color: Colors.black),
+        SizedBox(width: 20),
+        SocialLoginButton(icon: FontAwesomeIcons.facebookF, color: Colors.blue),
       ],
     );
   }
@@ -131,15 +152,27 @@ class SocialLogins extends StatelessWidget {
 
 class SocialLoginButton extends StatelessWidget {
   final IconData icon;
-  final Color? color;
+  final Color color;
 
-  const SocialLoginButton({super.key, required this.icon, this.color});
+  const SocialLoginButton({super.key, required this.icon, required this.color});
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 25,
-      backgroundColor: Colors.grey[200],
+    return Container(
+      width: 60,
+      height: 60,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
       child: Icon(
         icon,
         color: color,
