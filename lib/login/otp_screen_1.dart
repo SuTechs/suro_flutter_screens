@@ -57,7 +57,7 @@ class OtpScreen extends StatelessWidget {
                   // const SizedBox(height: 16),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                   const OtpForm(),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                  const SizedBox(height: 16),
                   TextButton(
                     onPressed: () {},
                     child: const Text(
